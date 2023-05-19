@@ -1,0 +1,50 @@
+@import url("https://fonts.googleapis.com/css2?family=Asap&family=Nunito&display=swap");
+
+/* Resetting defaults */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-weight: 400;
+}
+
+/* Project-wide variables and general styles */
+
+:root {
+  --primary-yellow: #f4e041;
+  --primary-yellow-hover: #ffe302;
+  --secondary-blue: #00bdd3;
+  --disabled-gray: #b4b4b4;
+  --background-gray: #f8f8f8;
+  --error-red: #cb3d40;
+
+  font-family: "Nunito", sans-serif;
+  background-color: var(--background-gray);
+}
+
+button {
+  all: unset;
+  inline-size: 100px;
+  block-size: 34px;
+  text-align: center;
+  background-color: var(--primary-yellow);
+  border-radius: 80px;
+  line-height: 26px;
+}
+
+button:hover {
+  background-color: var(--primary-yellow-hover);
+}
+
+button:disabled {
+  background-color: var(--disabled-gray);
+  color: #ffffffde;
+}
+
+/* Removing the blue background preset for inputs on autofill */
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px var(--background-gray) inset !important;
+}

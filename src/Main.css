@@ -1,0 +1,106 @@
+main {
+  display: flex;
+  flex-flow: column;
+  gap: 140px;
+}
+
+section {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  gap: 50px;
+  margin-inline: auto;
+}
+
+.get-section {
+  margin-block-start: 140px;
+  margin-inline: 32px;
+}
+
+section h2 {
+  font-size: 40px;
+  line-height: 100%;
+  text-align: center;
+}
+
+.users-container {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+
+  /* grid-auto-columns: minmax(0, 1fr); */
+  gap: 29px;
+  inline-size: 100%;
+}
+
+.user-card {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  gap: 20px;
+  max-inline-size: 380px;
+  text-align: center;
+  inline-size: 100%;
+}
+
+.user-card img {
+  border-radius: 50%;
+}
+
+.user-card :is(div, p) {
+  width: 100%;
+}
+
+.user-card p {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+  line-height: 26px;
+}
+
+.get-section button {
+  inline-size: 120px;
+}
+
+@media screen and (min-width: 768px) {
+  main h2 {
+    margin-inline: 16px;
+  }
+  .users-container {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 20px;
+    margin-inline: 16px;
+  }
+}
+
+/* @media screen and (min-width: 500px) {
+  .users-container {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-inline: 32px;
+  }
+}
+
+@media screen and (min-width: 845px) {
+  .users-container {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 29px;
+    margin-inline: 60px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .users-container {
+    margin-inline: 0;
+  }
+} */
+
+.post-section {
+  margin-block-end: 100px;
+}

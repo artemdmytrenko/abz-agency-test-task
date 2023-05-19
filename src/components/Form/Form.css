@@ -1,0 +1,176 @@
+/* General form layout */
+
+form {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.text-fields {
+  position: relative;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 50px;
+  inline-size: 380px;
+  margin-block-end: 43px;
+}
+
+.text-field {
+  position: relative;
+  display: grid;
+  align-items: center;
+  block-size: 54px;
+}
+
+.text-field input {
+  all: unset;
+  position: absolute;
+  border: 1px solid #d0cfcf;
+  border-radius: 4px;
+  padding: 14px 16px;
+  block-size: calc(100% - 28px);
+  inline-size: calc(100% - 34px);
+}
+
+/* Placeholder styles nefore and after focus */
+
+.text-field label {
+  position: absolute;
+  margin-inline-start: 12px;
+  padding-inline: 4px;
+  background-color: var(--background-gray);
+  color: #7e7e7e;
+  line-height: 26px;
+}
+
+.text-fields input.touched ~ label {
+  transform: translateY(-1.5rem);
+  font-size: 12px;
+  line-height: 14px;
+  transition: transform 1s, font-size 1s;
+}
+
+/* Error messages and helper text styles */
+
+.text-field p,
+.file-upload p {
+  position: absolute;
+  font-size: 12px;
+  line-height: 14px;
+  color: #7e7e7e;
+  bottom: -18px;
+  left: 16px;
+}
+
+/* Customizing radio buttons */
+
+fieldset {
+  all: unset;
+  display: flex;
+  flex-flow: column nowrap;
+  inline-size: 100%;
+  line-height: 26px;
+  margin-block-end: 47px;
+}
+
+fieldset div {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+fieldset input[type="radio"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: var(--background-gray);
+  margin: 0;
+  inline-size: 20px;
+  block-size: 20px;
+  border: 1px solid #d0cfcf;
+  border-radius: 50%;
+  display: grid;
+  place-content: center;
+}
+
+fieldset input[type="radio"]::before {
+  content: "";
+  width: 0.65em;
+  height: 0.65em;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 18px 18px var(--secondary-blue);
+}
+
+fieldset input[type="radio"]:checked::before {
+  transform: scale(1);
+}
+
+fieldset input[type="radio"]:checked {
+  border-color: var(--secondary-blue);
+}
+
+/* The file upload component styles */
+
+.file-upload {
+  position: relative;
+  border: 1px solid #d0cfcf;
+  border-radius: 4px;
+  inline-size: 100%;
+  block-size: 54px;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  margin-block-end: 50px;
+}
+
+.file-upload > div:nth-of-type(1) {
+  inline-size: 83px;
+  block-size: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.87);
+  color: rgba(0, 0, 0, 0.87);
+  line-height: 26px;
+  display: grid;
+  place-content: center;
+}
+
+.file-upload > div:nth-of-type(1):hover {
+  cursor: pointer;
+}
+
+.file-upload > div:nth-of-type(2) {
+  inline-size: calc(100% - 83px);
+  block-size: 100%;
+  color: #7e7e7e;
+  line-height: 26px;
+  display: grid;
+  padding-inline: 16px;
+  place-content: center start;
+}
+
+.file-upload div:nth-of-type(2).uploaded {
+  color: rgba(0, 0, 0, 0.87);
+}
+
+/* Styles set to form text fields and file upload field on error */
+
+.text-field .touched:has(~ .error:not(:empty)) {
+  border: 2px solid var(--error-red);
+}
+
+.text-field .touched:has(~ .error:not(:empty)) ~ label,
+.text-field .touched:has(~ .error:not(:empty)) ~ p,
+.file-upload p {
+  color: var(--error-red);
+}
+
+.file-upload.error div:nth-of-type(1) {
+  border-block: 2px solid var(--error-red);
+  border-inline-start: 2px solid var(--error-red);
+  border-inline-end: none;
+}
+
+.file-upload.error div:nth-of-type(2) {
+  border-block: 2px solid var(--error-red);
+  border-inline: 2px solid var(--error-red);
+}
