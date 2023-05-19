@@ -87,7 +87,7 @@
   }
 }
 
-@media screen and (min-width: 1180px) {
+@media screen and (min-width: 1290px) {
   .headline {
     padding-inline: calc((100% - 1170px) / 2);
   }

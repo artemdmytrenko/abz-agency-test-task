@@ -1,9 +1,21 @@
 /* General form layout */
 
+.post-section h2 {
+  margin-inline: 16px;
+}
+
 form {
   display: flex;
   flex-flow: column;
   align-items: center;
+  margin-inline: 16px;
+  inline-size: 328px;
+}
+
+@media screen and (min-width: 768px) {
+  form {
+    inline-size: 380px;
+  }
 }
 
 .text-fields {
@@ -11,7 +23,7 @@ form {
   display: flex;
   flex-flow: column nowrap;
   gap: 50px;
-  inline-size: 380px;
+  inline-size: 100%;
   margin-block-end: 43px;
 }
 
@@ -148,7 +160,10 @@ fieldset input[type="radio"]:checked {
   place-content: center start;
 }
 
-.file-upload div:nth-of-type(2).uploaded {
+.file-upload div:nth-of-type(2).uploaded span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   color: rgba(0, 0, 0, 0.87);
 }
 

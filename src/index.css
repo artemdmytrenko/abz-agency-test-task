@@ -48,3 +48,27 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0px 1000px var(--background-gray) inset !important;
 }
+
+.preloader {
+  height: 48px;
+  width: 48px;
+  color: #00bdd3;
+  border: 5px solid;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: rotate 1.5s linear infinite;
+}
+
+.preloader.starter {
+  margin-inline: auto;
+  margin-block: 50vh;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

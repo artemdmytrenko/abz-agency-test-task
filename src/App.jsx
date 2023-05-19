@@ -35,7 +35,7 @@ const App = () => {
 
   const getRef = useRef();
   const postRef = useRef();
-  const [success, setSuccess] = useState(false);
+  const [loadingState, setLoadingState] = useState("loading"); // loading, success
 
   useEffect(() => {
     axios
@@ -50,58 +50,72 @@ const App = () => {
           setVisible(false);
         }
       });
+    setLoadingState("");
   }, [page]);
 
   return (
-    <AppContext.Provider value={{ success, setSuccess }}>
-      <Header scroll={[getRef, postRef]} />
-      <main ref={getRef}>
-        <section className="get-section">
-          <h2>Working with GET request</h2>
-          <div className="users-container">
-            {data
-              .sort((a, b) => (a.timestamp < b.timestamp ? -1 : 1))
-              .map(({ id, photo, name, email, position, phone }) => (
-                <article key={id} className="user-card">
-                  <img src={photo} alt={name} width={70} height={70} />
-                  <StyledTooltip title={name}>
-                    <p>{name}</p>
-                  </StyledTooltip>
-                  <div>
-                    <StyledTooltip title={position}>
-                      <p>{position}</p>
-                    </StyledTooltip>
-                    <StyledTooltip title={email}>
-                      <p>{email}</p>
-                    </StyledTooltip>
-                    <StyledTooltip title={phone}>
-                      <p>{phone}</p>
-                    </StyledTooltip>
-                  </div>
-                </article>
-              ))}
-          </div>
-          {visible && (
-            <button
-              onClick={() => {
-                setPage((n) => n + 1);
-              }}
-            >
-              Show more
-            </button>
-          )}
-        </section>
-        <section className="post-section" ref={postRef}>
-          {success ? (
-            <>
-              <h2>User successfully registered</h2>
-              <img src={successPic} alt="User registered!" />
-            </>
-          ) : (
-            <Form />
-          )}
-        </section>
-      </main>
+    <AppContext.Provider value={{ loadingState, setLoadingState }}>
+      {loadingState === "loading" ? (
+        <div className="preloader starter"></div>
+      ) : (
+        <>
+          <Header scroll={[getRef, postRef]} />
+          <main ref={getRef}>
+            <section className="get-section">
+              <h2>Working with GET request</h2>
+              <div className="users-container">
+                {data
+                  .sort((a, b) => (a.timestamp < b.timestamp ? -1 : 1))
+                  .map(({ id, photo, name, email, position, phone }) => (
+                    <article key={id} className="user-card">
+                      <img src={photo} alt={name} width={70} height={70} />
+                      <StyledTooltip title={name}>
+                        <p>{name}</p>
+                      </StyledTooltip>
+                      <div>
+                        <StyledTooltip title={position}>
+                          <p>{position}</p>
+                        </StyledTooltip>
+                        <StyledTooltip title={email}>
+                          <p>{email}</p>
+                        </StyledTooltip>
+                        <StyledTooltip title={phone}>
+                          <p>{phone}</p>
+                        </StyledTooltip>
+                      </div>
+                    </article>
+                  ))}
+              </div>
+              {visible && (
+                <button
+                  onClick={() => {
+                    setPage((n) => n + 1);
+                  }}
+                >
+                  Show more
+                </button>
+              )}
+            </section>
+            <section className="post-section" ref={postRef}>
+              {(() => {
+                switch (loadingState) {
+                  case "loading":
+                    return <div className="preloader"></div>;
+                  case "success":
+                    return (
+                      <>
+                        <h2>User successfully registered</h2>
+                        <img src={successPic} alt="User registered!" />
+                      </>
+                    );
+                  default:
+                    return <Form />;
+                }
+              })()}
+            </section>
+          </main>
+        </>
+      )}
     </AppContext.Provider>
   );
 };

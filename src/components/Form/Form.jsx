@@ -5,8 +5,8 @@ import "./Form.css";
 import { AppContext } from "../../App";
 
 const Form = () => {
-  const { success, setSuccess } = useContext(AppContext);
-  const { register, handleSubmit, formState } = useForm({
+  const { loadingState, setLoadingState } = useContext(AppContext);
+  const { register, trigger, handleSubmit, formState } = useForm({
     mode: "onBlur",
     defaultValues: {
       name: "",
@@ -34,29 +34,30 @@ const Form = () => {
   }, []);
 
   const onSubmit = (data) => {
+    setLoadingState("loading");
     data.photo = data.photo[0];
     console.log(data.photo);
-    // axios
-    //   .post(
-    //     "https://frontend-test-assignment-api.abz.agency/api/v1/users",
-    //     {
-    //       ...data,
-    //     },
-    //     { headers: { Token: token, "Content-Type": "multipart/form-data" } }
-    //   )
-    //   .then((response) => {
-    //     console.log(response);
-    //     if (response.data.success) {
-    //       success = true;
-    //     }
-    //   });
-    setSuccess(true);
+    axios
+      .post(
+        "https://frontend-test-assignment-api.abz.agency/api/v1/users",
+        {
+          ...data,
+        },
+        { headers: { Token: token, "Content-Type": "multipart/form-data" } }
+      )
+      .then((response) => {
+        console.log(response);
+        // if (response.data.success) {
+        //   success = true;
+        // }
+      });
+    setLoadingState("success");
   };
 
   return (
     <>
       {" "}
-      <h2>Working with a POST request</h2>
+      <h2>Working with POST request</h2>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <div className="text-fields">
           <div className="text-field">
@@ -150,7 +151,9 @@ const Form = () => {
             Upload
           </div>
           {photoName ? (
-            <div className="uploaded">{photoName}</div>
+            <div className="uploaded">
+              <span>{photoName}</span>
+            </div>
           ) : (
             <div>Upload your photo</div>
           )}
@@ -167,6 +170,8 @@ const Form = () => {
               onChange: ({ target: { files } }) => {
                 if (files && files[0]?.type === "image/jpeg") {
                   setPhotoName(files[0].name);
+                } else {
+                  trigger("photo");
                 }
               },
               validate: {
