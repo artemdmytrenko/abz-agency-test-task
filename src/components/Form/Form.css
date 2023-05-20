@@ -1,5 +1,9 @@
 /* General form layout */
 
+.post-section {
+  margin-block-end: 100px;
+}
+
 .post-section h2 {
   margin-inline: 16px;
 }

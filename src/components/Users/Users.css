@@ -1,28 +1,6 @@
-main {
-  display: flex;
-  flex-flow: column;
-  gap: 140px;
-}
-
-section {
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
-  gap: 50px;
-  margin-inline: auto;
-}
-
 .get-section {
   padding-block-start: 140px;
   margin-inline: 16px;
-}
-
-h1,
-h2 {
-  font-size: 40px;
-  font-weight: 400;
-  line-height: 100%;
-  text-align: center;
 }
 
 .users-container {
@@ -41,7 +19,6 @@ h2 {
   flex-flow: column nowrap;
   align-items: center;
   gap: 20px;
-  /* max-inline-size: 380px; */
   text-align: center;
   inline-size: 100%;
 }
@@ -91,8 +68,4 @@ h2 {
   .get-section {
     margin-inline: calc((100% - 1170px) / 2);
   }
-}
-
-.post-section {
-  margin-block-end: 100px;
 }

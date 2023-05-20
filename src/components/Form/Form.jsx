@@ -1,11 +1,10 @@
 import { useState, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
-import axios from "axios";
-import "./Form.css";
 import { AppContext } from "../../App";
+import axios from "axios";
 
 const Form = () => {
-  const { loadingState, setLoadingState } = useContext(AppContext);
+  const { success, setSuccess } = useContext(AppContext);
   const { register, trigger, handleSubmit, formState } = useForm({
     mode: "onBlur",
     defaultValues: {
@@ -34,7 +33,6 @@ const Form = () => {
   }, []);
 
   const onSubmit = (data) => {
-    setLoadingState("loading");
     data.photo = data.photo[0];
     console.log(data.photo);
     axios
@@ -51,7 +49,7 @@ const Form = () => {
         //   success = true;
         // }
       });
-    setLoadingState("success");
+    setSuccess(true);
   };
 
   return (
