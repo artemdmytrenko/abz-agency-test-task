@@ -199,3 +199,19 @@ fieldset input[type="radio"]:checked {
   border-block: 2px solid var(--error-red);
   border-inline: 2px solid var(--error-red);
 }
+
+.post-section img {
+  inline-size: 328px;
+  block-size: 290px;
+  animation: enter 3s normal ease-in;
+  animation-iteration-count: 1;
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

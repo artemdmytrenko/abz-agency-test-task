@@ -1,11 +1,24 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { AppContext } from "../../App";
+import { createContext } from "react";
+import FileUpload from "./components/FileUpload";
+import RadioButtons from "./components/RadioButtons";
+import TextField from "./components/TextField";
 import axios from "axios";
 
+export const FormContext = createContext();
+
 const Form = () => {
-  const { success, setSuccess } = useContext(AppContext);
-  const { register, trigger, handleSubmit, formState } = useForm({
+  const { setSuccess } = useContext(AppContext);
+  const {
+    register,
+    trigger,
+    clearErrors,
+    setError,
+    handleSubmit,
+    formState: { errors, isDirty, isValid },
+  } = useForm({
     mode: "onBlur",
     defaultValues: {
       name: "",
@@ -15,16 +28,10 @@ const Form = () => {
       photo: "",
     },
   });
-  const { errors, isValid, isDirty } = formState;
-  const [positions, setPositions] = useState([]);
+
+  const photoRef = useRef();
   const [token, setToken] = useState(null);
   const [photoName, setPhotoName] = useState();
-
-  useEffect(() => {
-    axios
-      .get("https://frontend-test-assignment-api.abz.agency/api/v1/positions")
-      .then(({ data }) => setPositions(data.positions));
-  }, []);
 
   useEffect(() => {
     axios
@@ -34,167 +41,105 @@ const Form = () => {
 
   const onSubmit = (data) => {
     data.photo = data.photo[0];
-    console.log(data.photo);
     axios
       .post(
         "https://frontend-test-assignment-api.abz.agency/api/v1/users",
-        {
-          ...data,
-        },
+        { ...data },
         { headers: { Token: token, "Content-Type": "multipart/form-data" } }
       )
-      .then((response) => {
-        console.log(response);
-        // if (response.data.success) {
-        //   success = true;
-        // }
+      .catch((error) => {
+        console.log(error);
+        if (error.response.status === 409) {
+          const message = error.response.data.message;
+          setError("email", { message });
+          setError("phone", { message });
+        } else if (error.response.status === 422) {
+          setError("photo", {
+            message: error.response.data.fails.photo[0],
+          });
+          photoRef.current.classList.add("error");
+        }
+      })
+      .then(({ data }) => {
+        data.success && setSuccess(true);
       });
-    setSuccess(true);
   };
 
   return (
-    <>
-      {" "}
+    <FormContext.Provider
+      value={{
+        register,
+        trigger,
+        errors,
+        photoName,
+        setPhotoName,
+        clearErrors,
+        photoRef,
+      }}
+    >
       <h2>Working with POST request</h2>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <div className="text-fields">
-          <div className="text-field">
-            <input
-              type="text"
-              id="name"
-              onFocus={(e) => {
-                e.currentTarget.classList.add("touched");
-              }}
-              {...register("name", {
-                required: {
-                  value: true,
-                  message: "This field is required",
-                },
-              })}
-            />
+          <TextField
+            id="name"
+            minLength={{
+              value: 2,
+              message: "The name must be at least 2 characters.",
+            }}
+            maxLength={{
+              value: 60,
+              message: "The name can't be longer than 60 characters.",
+            }}
+          >
             <label htmlFor="name">Your name</label>
             <p className="error">{errors.name?.message}</p>
-          </div>
-          <div className="text-field">
-            <input
-              type="email"
-              id="email"
-              onFocus={(e) => {
-                e.currentTarget.classList.add("touched");
-              }}
-              {...register("email", {
-                required: {
-                  value: true,
-                  message: "This field is required",
-                },
-                pattern: {
-                  value:
-                    /^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$/,
-                  message: "Please provide a valid email",
-                },
-              })}
-            />
+          </TextField>
+          <TextField
+            type="email"
+            id="email"
+            pattern={{
+              value: emailPattern,
+              message: "The email must be a valid email address.",
+            }}
+            minLength={{
+              value: 2,
+              message: "The email must be at least 2 characters.",
+            }}
+            maxLength={{
+              value: 100,
+              message: "The email can't be longer than 100 characters.",
+            }}
+          >
             <label htmlFor="email">Email</label>
             <p className="error">{errors.email?.message}</p>
-          </div>
-          <div className="text-field ">
-            <input
-              type="tel"
-              id="phone"
-              aria-describedby="tel-pattern"
-              onFocus={(e) => {
-                e.currentTarget.classList.add("touched");
-              }}
-              onBlur={(e) => {
-                e.target.classList.add("blurred");
-              }}
-              {...register("phone", {
-                required: {
-                  value: true,
-                  message: "This field is required",
-                },
-                pattern: {
-                  value: /^[\+]{0,1}380([0-9]{9})$/,
-                  message: "Please provide a valid phone number",
-                },
-              })}
-            />
+          </TextField>
+          <TextField
+            type="tel"
+            id="phone"
+            desc="tel-pattern"
+            pattern={{
+              value: phonePattern,
+              message: "Please provide a valid phone number",
+            }}
+          >
             {errors.phone?.message ? (
               <p className="error">{errors.phone?.message}</p>
             ) : (
               <p id="tel-pattern">+ 38 (XXX) XXX - XX - XX</p>
             )}
             <label htmlFor="phone">Phone</label>
-          </div>
+          </TextField>
         </div>
-        <fieldset>
-          <legend>Select your position</legend>
-          {positions.map(({ id, name }) => (
-            <div key={id}>
-              <input
-                type="radio"
-                id={id}
-                value={id}
-                {...register("position_id")}
-              />
-              <label htmlFor={id}>{name}</label>
-            </div>
-          ))}
-        </fieldset>
-        <div className={`file-upload ${errors.photo?.message && "error"}`}>
-          <div
-            tabIndex={0}
-            onClick={() => document.querySelector('input[type="file"]').click()}
-          >
-            Upload
-          </div>
-          {photoName ? (
-            <div className="uploaded">
-              <span>{photoName}</span>
-            </div>
-          ) : (
-            <div>Upload your photo</div>
-          )}
-
-          <input
-            type="file"
-            accept="image/jpeg, image/jpg"
-            id="photo"
-            {...register("photo", {
-              required: {
-                value: true,
-                message: "Please provide a photo",
-              },
-              onChange: ({ target: { files } }) => {
-                if (files && files[0]?.type === "image/jpeg") {
-                  setPhotoName(files[0].name);
-                } else {
-                  trigger("photo");
-                }
-              },
-              validate: {
-                typeError: (fileList) => {
-                  return (
-                    fileList[0].type === "image/jpeg" ||
-                    "The photo should be in JPEG/JPG format"
-                  );
-                },
-                fileSizeError: (fileList) => {
-                  return (
-                    fileList[0].size < 5e6 ||
-                    "The selected photo's file size should be less than 5 MB"
-                  );
-                },
-              },
-            })}
-            hidden
-          />
-          <p>{errors.photo?.message}</p>
-        </div>
+        <RadioButtons />
+        <FileUpload />
         <button disabled={!isValid || !isDirty}>Sign up</button>
       </form>
-    </>
+    </FormContext.Provider>
   );
 };
 
 export default Form;
+
+const phonePattern = /^[\+]{0,1}380([0-9]{9})$/;
+const emailPattern =
+  /^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$/;

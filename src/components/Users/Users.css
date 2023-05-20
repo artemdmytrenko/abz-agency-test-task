@@ -9,6 +9,7 @@
   align-items: center;
   gap: 20px;
   inline-size: 100%;
+  min-block-size: 1624px;
 }
 
 .user-card {
@@ -21,6 +22,7 @@
   gap: 20px;
   text-align: center;
   inline-size: 100%;
+  animation: enter 0.5s normal ease-in;
 }
 
 .user-card img {
@@ -49,6 +51,7 @@
   }
   .users-container {
     display: grid;
+    min-block-size: 794px;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px;
   }
@@ -59,6 +62,7 @@
     margin-inline: 60px;
   }
   .users-container {
+    min-block-size: 537px;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 29px;
   }

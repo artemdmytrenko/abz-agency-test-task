@@ -14,7 +14,7 @@ const App = () => {
     <AppContext.Provider value={{ success, setSuccess, postRef, getRef }}>
       <Header />
       <main>
-        <Users className="get-section" ref={getRef} />
+        <Users className="get-section" />
         <section className="post-section" ref={postRef}>
           <Suspense fallback={<div className="preloader"></div>}>
             {success ? (
@@ -23,7 +23,7 @@ const App = () => {
                 <img src={successPic} alt="User successfully registered" />
               </>
             ) : (
-              <Form ref={postRef} />
+              <Form />
             )}
           </Suspense>
         </section>

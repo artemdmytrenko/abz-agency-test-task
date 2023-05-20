@@ -10,7 +10,7 @@
   padding-inline: 16px;
   position: sticky;
   top: 0;
-  z-index: 2;
+  z-index: 3;
 }
 
 .headline > div {
@@ -38,10 +38,11 @@
   z-index: -1;
   zoom: 0.6;
   bottom: -22.5px;
+  animation: enter 0.5s normal ease-in;
 }
 
 .banner > div {
-  z-index: 3;
+  /* z-index: 3; */
   display: flex;
   flex-flow: column;
   gap: 21px;
