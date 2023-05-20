@@ -10,6 +10,7 @@
   padding-inline: 16px;
   position: sticky;
   top: 0;
+  z-index: 2;
 }
 
 .headline > div {
@@ -21,6 +22,7 @@
 /* Banner image layout (mobile-first) */
 
 .banner {
+  position: relative;
   margin: auto;
   block-size: 500px;
   display: flex;
@@ -28,15 +30,18 @@
   justify-content: center;
   align-items: center;
   gap: 2rem;
-
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url("../../../banner.avif");
-  background-size: auto 800px;
-  background-repeat: no-repeat;
-  background-position: center -300px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+  overflow: hidden;
+}
+.banner img {
+  position: absolute;
+  z-index: -1;
+  zoom: 0.6;
+  bottom: -22.5px;
 }
 
 .banner > div {
+  z-index: 3;
   display: flex;
   flex-flow: column;
   gap: 21px;
@@ -75,8 +80,10 @@
   .banner {
     max-inline-size: 1170px;
     block-size: 650px;
-    background-size: auto 1050px;
-    background-position: center -400px;
+  }
+  .banner img {
+    zoom: 0.8;
+    bottom: -40px;
   }
   .headline {
     padding-inline: 60px;

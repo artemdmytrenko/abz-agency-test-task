@@ -1,6 +1,6 @@
 import logo from "../../assets/Logo.svg";
 import "./Header.css";
-
+import banner from "../../assets/banner.avif";
 const Header = ({ scrollToSection }) => {
   const scrollTo = (index) => {
     scrollToSection[index].current.scrollIntoView({ behavior: "smooth" });
@@ -16,6 +16,7 @@ const Header = ({ scrollToSection }) => {
         </div>
       </div>
       <div className="banner">
+        <img src={banner} alt="" height="1416" loading="eager" />
         <div>
           <h1>Test assignment for front-end developer</h1>
           <p>
