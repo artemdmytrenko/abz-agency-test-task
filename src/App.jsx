@@ -1,41 +1,23 @@
 import Header from "./components/Header";
-import Form from "./components/Form";
+import StyledTooltip from "./components/StyledTooltip";
 import successPic from "./assets/success-image.svg";
 import "./Main.css";
-import { Tooltip } from "@mui/material";
-import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
-import { useEffect, useRef, useState, createContext } from "react";
+import { useEffect, useRef, useState, createContext, lazy } from "react";
 import axios from "axios";
 
-export const AppContext = createContext();
+const Form = lazy(() => import("./components/Form"));
 
-const StyledTooltip = styled(({ className, ...props }) => (
-  <Tooltip
-    {...props}
-    classes={{
-      tooltip: className,
-    }}
-    followCursor={true}
-    enterNextDelay={800}
-  />
-))(({ theme }) => ({
-  padding: "3px 16px",
-  fontFamily: "Nunito",
-  fontWeight: "400",
-  fontSize: "16px",
-  lineHeight: "26px",
-  backgroundColor: "#000000DE",
-}));
+export const AppContext = createContext();
 
 const App = () => {
   const users = useRef([]);
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
   const [visible, setVisible] = useState(true);
+  const [loadingState, setLoadingState] = useState("loading"); // loading, success
 
   const getRef = useRef();
   const postRef = useRef();
-  const [loadingState, setLoadingState] = useState("loading"); // loading, success
 
   useEffect(() => {
     axios
@@ -59,16 +41,22 @@ const App = () => {
         <div className="preloader starter"></div>
       ) : (
         <>
-          <Header scroll={[getRef, postRef]} />
-          <main ref={getRef}>
-            <section className="get-section">
+          <Header scrollToSection={[getRef, postRef]} />
+          <main>
+            <section className="get-section" ref={getRef}>
               <h2>Working with GET request</h2>
               <div className="users-container">
                 {data
                   .sort((a, b) => (a.timestamp < b.timestamp ? -1 : 1))
                   .map(({ id, photo, name, email, position, phone }) => (
                     <article key={id} className="user-card">
-                      <img src={photo} alt={name} width={70} height={70} />
+                      <img
+                        src={photo}
+                        alt={name}
+                        width={70}
+                        height={70}
+                        loading="lazy"
+                      />
                       <StyledTooltip title={name}>
                         <p>{name}</p>
                       </StyledTooltip>

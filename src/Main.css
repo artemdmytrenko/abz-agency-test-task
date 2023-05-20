@@ -2,7 +2,6 @@ main {
   display: flex;
   flex-flow: column;
   gap: 140px;
-  /* align-items: center; */
 }
 
 section {
@@ -14,7 +13,7 @@ section {
 }
 
 .get-section {
-  margin-block-start: 140px;
+  padding-block-start: 140px;
   margin-inline: 16px;
 }
 

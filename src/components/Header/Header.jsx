@@ -1,27 +1,18 @@
-import { useRef } from "react";
 import logo from "../../assets/Logo.svg";
 import "./Header.css";
 
-const Header = ({ scroll }) => {
+const Header = ({ scrollToSection }) => {
+  const scrollTo = (index) => {
+    scrollToSection[index].current.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <header>
       <div className="headline">
-        <img src={logo} alt="logo" />
+        <img src={logo} alt="logo" width="104px" height="26px" />
         <div>
-          <button
-            onClick={() =>
-              scroll[0].current.scrollIntoView({ behavior: "smooth" })
-            }
-          >
-            Users
-          </button>
-          <button
-            onClick={() =>
-              scroll[1].current.scrollIntoView({ behavior: "smooth" })
-            }
-          >
-            Sign up
-          </button>
+          <button onClick={() => scrollTo(0)}>Users</button>
+          <button onClick={() => scrollTo(1)}>Sign up</button>
         </div>
       </div>
       <div className="banner">
@@ -35,13 +26,7 @@ const Header = ({ scroll }) => {
             Front-End Development keeps evolving.
           </p>
         </div>
-        <button
-          onClick={() =>
-            scroll[1].current.scrollIntoView({ behavior: "smooth" })
-          }
-        >
-          Sign up
-        </button>
+        <button onClick={() => scrollTo(1)}>Sign up</button>
       </div>
     </header>
   );

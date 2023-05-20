@@ -12,11 +12,6 @@
   top: 0;
 }
 
-.headline img {
-  inline-size: 104px;
-  block-size: 26px;
-}
-
 .headline > div {
   display: flex;
   flex-flow: row nowrap;
@@ -36,9 +31,9 @@
 
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url("../../assets/pexels-alexandr-podvalny-1227513.jpeg");
-  background-size: 1230px;
+  background-size: auto 800px;
   background-repeat: no-repeat;
-  background-position: center bottom;
+  background-position: center -300px;
 }
 
 .banner > div {
@@ -79,8 +74,9 @@
 @media screen and (min-width: 1024px) {
   .banner {
     max-inline-size: 1170px;
-    min-block-size: 650px;
-    background-size: 1570px;
+    block-size: 650px;
+    background-size: auto 1050px;
+    background-position: center -400px;
   }
   .headline {
     padding-inline: 60px;
