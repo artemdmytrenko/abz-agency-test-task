@@ -37,8 +37,8 @@
 .banner picture {
   position: absolute;
   z-index: -1;
-  zoom: 0.725;
-  bottom: -22.5px;
+  zoom: 0.86;
+  bottom: -80px;
 }
 
 .banner > div {
@@ -82,8 +82,8 @@
     block-size: 650px;
   }
   .banner picture {
-    zoom: 0.975;
-    bottom: -40px;
+    zoom: 1.05;
+    bottom: -60px;
   }
   .headline {
     padding-inline: 60px;

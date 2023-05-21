@@ -1,6 +1,6 @@
 import logo from "../../assets/Logo.svg";
 import bannerWEBP from "../../assets/banner_1170x800.webp";
-import bannerAVIF from "../../assets/banner_1170x800.avif";
+import bannerAVIF from "../../assets/banner.avif";
 import { useContext } from "react";
 import { AppContext } from "../../App";
 
@@ -25,10 +25,17 @@ const Header = () => {
           <source
             srcSet={`${bannerWEBP}`}
             type="image/webp"
-            width="1500"
-            height="800"
+            width="1170"
+            height="500"
           />
-          <img src={bannerAVIF} type="image/avif" alt="Banner" height="800" />
+          <img
+            src={bannerAVIF}
+            type="image/avif"
+            alt="Banner"
+            height="650"
+            width="1170"
+            loading="eager"
+          />
         </picture>
         <div>
           <h1>Test assignment for front-end developer</h1>
