@@ -1,5 +1,5 @@
 import logo from "../../assets/Logo.svg";
-import bannerWEBP from "../../assets/banner_1170x800.webp";
+import bannerWEBP from "../../assets/banner_1170x650.webp";
 import bannerAVIF from "../../assets/banner.avif";
 import { useContext } from "react";
 import { AppContext } from "../../App";
@@ -26,7 +26,8 @@ const Header = () => {
             srcSet={`${bannerWEBP}`}
             type="image/webp"
             width="1170"
-            height="800"
+            height="650"
+            media="(max-width: 1023px)"
           />
           <img
             src={bannerAVIF}
