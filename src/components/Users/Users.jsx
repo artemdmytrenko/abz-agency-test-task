@@ -3,27 +3,40 @@ import { AppContext } from "../../App";
 import StyledTooltip from "../StyledTooltip";
 import axios from "axios";
 
-const Users = ({ className, ref }) => {
+const Users = ({ className }) => {
+  const { getRef, success, setSuccess } = useContext(AppContext);
   const [userData, setUserData] = useState({ users: [], page: 1 });
-  const { getRef } = useContext(AppContext);
+
   const showMore = useRef();
 
   useEffect(() => {
     let total_pages;
+
     axios
       .get(
         `https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${userData?.page}&count=6`
       )
       .then(({ data }) => {
         total_pages = data["total_pages"];
-        data.success
-          ? setUserData((prev) => {
-              return { ...prev, users: [...prev.users, ...data.users] };
-            })
-          : console.log(data.message?.fails);
+        setUserData((prev) => {
+          return { ...prev, users: [...prev.users, ...data.users] };
+        });
       });
-    return () => userData.page === total_pages - 1 && showMore.current.remove();
+    return () => {
+      userData.page === total_pages - 1 && showMore.current.remove();
+    };
   }, [userData.page]);
+
+  useEffect(() => {
+    success &&
+      axios
+        .get(
+          `https://frontend-test-assignment-api.abz.agency/api/v1/users?page=1&count=6`
+        )
+        .then(({ data }) => setUserData({ page: 1, users: [...data.users] }));
+
+    return () => setSuccess(false);
+  }, [success]);
 
   return (
     <section className={className} ref={getRef}>

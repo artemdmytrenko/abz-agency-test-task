@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useRef } from "react";
+import { useState, useEffect, useContext, useRef, memo } from "react";
 import { useForm } from "react-hook-form";
 import { AppContext } from "../../App";
 import { createContext } from "react";
@@ -11,6 +11,10 @@ export const FormContext = createContext();
 
 const Form = () => {
   const { setSuccess } = useContext(AppContext);
+  const [token, setToken] = useState(null);
+  const [photoName, setPhotoName] = useState();
+  const photoRef = useRef();
+
   const {
     register,
     trigger,
@@ -29,10 +33,7 @@ const Form = () => {
     },
   });
 
-  const photoRef = useRef();
-  const [token, setToken] = useState(null);
-  const [photoName, setPhotoName] = useState();
-
+  // form validation and handling error responses on server
   useEffect(() => {
     axios
       .get("https://frontend-test-assignment-api.abz.agency/api/v1/token")

@@ -1,12 +1,13 @@
-import Header from "./components/Header";
+import { useRef, useState, createContext, Suspense } from "react";
 import successPic from "./assets/success-image.svg";
-import { useRef, useState, createContext, lazy, Suspense } from "react";
+import Header from "./components/Header";
 import Users from "./components/Users";
 import Form from "./components/Form";
+
 export const AppContext = createContext();
 
 const App = () => {
-  const [success, setSuccess] = useState(false); // loading, success
+  const [success, setSuccess] = useState(false); // true on form validation and consequential POST
   const getRef = useRef();
   const postRef = useRef();
 

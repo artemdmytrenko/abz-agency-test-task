@@ -200,6 +200,8 @@ fieldset input[type="radio"]:checked {
   border-inline: 2px solid var(--error-red);
 }
 
+/* Success image fade-in animationon enter */
+
 .post-section img {
   inline-size: 328px;
   block-size: 290px;

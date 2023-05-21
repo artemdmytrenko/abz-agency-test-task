@@ -1,3 +1,5 @@
+/* Mobile-first layout */
+
 .get-section {
   padding-block-start: 140px;
   margin-inline: 16px;
@@ -11,6 +13,8 @@
   inline-size: 100%;
   min-block-size: 1624px;
 }
+
+/* Card component layout and common styles */
 
 .user-card {
   background-color: #ffffff;
@@ -44,6 +48,8 @@
 .get-section button {
   inline-size: 120px;
 }
+
+/* Media queries */
 
 @media screen and (min-width: 768px) {
   .get-section {
