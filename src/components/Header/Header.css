@@ -37,9 +37,8 @@
 .banner picture {
   position: absolute;
   z-index: -1;
-  zoom: 0.85;
+  zoom: 0.725;
   bottom: -22.5px;
-  /* animation: enter 0.5s normal ease-in; */
 }
 
 .banner > div {
@@ -83,7 +82,7 @@
     block-size: 650px;
   }
   .banner picture {
-    zoom: 1.2;
+    zoom: 0.975;
     bottom: -40px;
   }
   .headline {
