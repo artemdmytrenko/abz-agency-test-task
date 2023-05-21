@@ -26,14 +26,14 @@ const Header = () => {
             srcSet={`${bannerWEBP}`}
             type="image/webp"
             width="1170"
-            height="500"
+            height="800"
           />
           <img
             src={bannerAVIF}
             type="image/avif"
             alt="Banner"
-            height="650"
-            width="1170"
+            height="1500"
+            width="2254"
             loading="eager"
           />
         </picture>
