@@ -39,7 +39,7 @@
   z-index: -1;
   zoom: 0.85;
   bottom: -22.5px;
-  animation: enter 0.5s normal ease-in;
+  /* animation: enter 0.5s normal ease-in; */
 }
 
 .banner > div {
