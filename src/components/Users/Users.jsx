@@ -6,9 +6,9 @@ import axios from "axios";
 const Users = ({ className }) => {
   const { getRef, success, setSuccess } = useContext(AppContext);
   const [userData, setUserData] = useState({ users: [], page: 1 });
-
   const showMore = useRef();
 
+  // fetches the sequential page on first render "show more" click
   useEffect(() => {
     let total_pages;
 
@@ -27,6 +27,7 @@ const Users = ({ className }) => {
     };
   }, [userData.page]);
 
+  // fetches the first page after user registration
   useEffect(() => {
     success &&
       axios
@@ -34,8 +35,6 @@ const Users = ({ className }) => {
           `https://frontend-test-assignment-api.abz.agency/api/v1/users?page=1&count=6`
         )
         .then(({ data }) => setUserData({ page: 1, users: [...data.users] }));
-
-    return () => setSuccess(false);
   }, [success]);
 
   return (
