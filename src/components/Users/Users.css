@@ -45,6 +45,10 @@
   line-height: 26px;
 }
 
+.user-card p:hover {
+  cursor: pointer;
+}
+
 .get-section button {
   inline-size: 120px;
 }
